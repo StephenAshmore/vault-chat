@@ -1,8 +1,8 @@
 nav {
   width:99%;
   height:25px;
-  background: #474448;
-  color: #AFC2D5;
+  background: #162D48;
+  color: #989788;
   font-size: 18px;
   font-style: oblique;
   font-family: monospace;
@@ -11,13 +11,52 @@ nav {
 }
 
 body {
-  background-color: #E0DDCF;
+  background-color: #E9EFEB;
   font-size: 12px;
   font-family: monospace;
+  color: #56756E;
 }
 
 a {
-  color: #709B9B;
+  color: #E6F9AF;
+}
+
+form button {
+  width: 9%;
+  background: #8BBEB2;
+  border: none;
+  padding: 10px;
+}
+
+li {
+  /*background-color: #897360;*/
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+  width: 99%;
+  height: 25px;
+  color: #989788;
+  background-color: #162D48;
+  /*text-align: center;*/
+}
+
+
+#bottom-separator {
+  position: fixed;
+  bottom: 90px;
+  width: 100%;
+}
+
+#status {
+  padding: 3px;
+  position: fixed;
+  bottom: 65px;
+  width: 100%;
 }
 
 form {
@@ -32,28 +71,4 @@ form input {
   padding: 10px;
   width: 85%;
   margin-right: .5%;
-}
-
-form button {
-  width: 9%;
-  background: #AFC2D5;
-  border: none;
-  padding: 10px;
-}
-
-li {
-  background-color: #897360;
-}
-
-footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 5px;
-  width: 99%;
-  height: 25px;
-  color: #AFC2D5;
-  background-color: #474448;
-  /*text-align: center;*/
 }
