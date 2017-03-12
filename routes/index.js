@@ -4,13 +4,16 @@ var Account = require('../models/account');
 var router = express.Router();
 var io = require('../io');
 
+var people = {};
+
 io.on('connection', function(socket){
-  console.log('user connected');
-  io.emit('user connected', "A User Connected");
+  console.log('user connected: ' + socket.handshake.session.id + ' ' + socket.id);
+  
+  io.emit('user connected', socket.handshake.session.username + " has connected.");
 
   socket.on('chat message', function(msg){
     console.log('chat message ' + msg);
-    io.emit('chat message', msg);
+    socket.broadcast.emit('chat message', msg);
   });
 
   socket.on('disconnect', function(){
@@ -20,28 +23,29 @@ io.on('connection', function(socket){
 });
 
 router.get('/', function (req, res) {
-    res.render('index', { user : req.user });
+  console.log("username " + req.user.username);
+  res.render('index', { user : req.user });
 });
 
 router.get('/register', function(req, res) {
-    res.render('register', { });
+  res.render('register', { });
 });
 
 router.post('/register', function(req, res, next) {
-    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-          return res.render('register', { error : err.message });
-        }
+  Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+    if (err) {
+      return res.render('register', { error : err.message });
+    }
 
-        passport.authenticate('local')(req, res, function () {
-            req.session.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
-            });
-        });
+    passport.authenticate('local')(req, res, function () {
+      req.session.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/');
+      });
     });
+  });
 });
 
 router.get('/login', function(req, res) {
@@ -49,7 +53,7 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+  res.redirect('/');
 });
 
 router.get('/logout', function(req, res) {
