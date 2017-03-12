@@ -19,7 +19,12 @@ io.on('connection', function(socket){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Vault Chat' });
+  if (req.isAuthenticated()) {
+    res.render('index', { title: 'Vault Chat' });
+  }
+  else {
+    res.render('user', {title: 'Vault Chat Login'});
+  }
 });
 
 module.exports = router;

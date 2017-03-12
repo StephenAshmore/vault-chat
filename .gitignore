@@ -1,4 +1,5 @@
 # Ignore config:
+config.js
 config.json
 
 # Logs

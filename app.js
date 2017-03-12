@@ -6,10 +6,51 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
 
+var pgp = require('pg-promise')();
+var connection = require('./config');
+var db = pgp(connection);
+
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+const user = {
+  username: 'test-user',
+  password: 'test-password',
+  id: 1
+}
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    findUser(username, function (err, user) {
+      if (err) {
+        return done(err)
+      }
+      if (!user) {
+        return done(null, false)
+      }
+      if (password !== user.password  ) {
+        return done(null, false)
+      }
+      return done(null, user)
+    })
+  }
+))
+const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+app.use(session({
+  store: new RedisStore({
+    url: process.env.REDIS_STORE_URI
+  }),
+  secret: "console kat monster",
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +66,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.user('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,4 +86,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = {app: app, db: db};
