@@ -1,6 +1,7 @@
+{{#if user}}
 <ul id="messages">
   {{#each messages}}
-    <li>{{this}}</li>
+    <li class="message">{{this}}</li>
   {{/each}}
 </ul>
 
@@ -16,7 +17,7 @@
 $(function () {
   var socket = io();
   $('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
+    io.emit('chat message', $('#m').val());
     $('#m').val('');
     return false;
   });
@@ -31,3 +32,6 @@ $(function () {
   });
 });
 </script>
+{{else}}
+Please <a href="/login">Login</a> or <a href="/register">Register</a>.
+{{/if}}

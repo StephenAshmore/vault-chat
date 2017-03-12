@@ -18,6 +18,14 @@ body {
 }
 
 a {
+  color: #162D48;
+}
+
+nav a {
+  color: #E6F9AF;
+}
+
+footer a {
   color: #E6F9AF;
 }
 
@@ -28,9 +36,9 @@ form button {
   padding: 10px;
 }
 
-li {
-  /*background-color: #897360;*/
-}
+#messages { list-style-type: none; margin: 0; padding: 0; }
+#messages li { padding: 5px 10px; }
+/*#messages li:nth-child(odd) { background: #eee; }*/
 
 footer {
   position: absolute;

@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var app = require('../app').app;
+var app = require('../app');
 var io = require('../io');
 var debug = require('debug')('vault-chat:server');
 var http = require('http');

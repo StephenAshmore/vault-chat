@@ -8,6 +8,9 @@
   <body>
     <nav>
       Vault Chat.
+      {{#if user}}
+        <a href="/logout">Logout</a>
+      {{/if}}
     </nav>
     {{{body}}}
     <footer>

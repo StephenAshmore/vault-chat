@@ -1,0 +1,14 @@
+<form class="login" action="/register" method="post">
+  {{#if error}}
+    <h4>{{error}}</h4>
+  {{/if}}
+  <table class="login">
+    <tr>
+      <td>Username: <input type="text" name="username"></td>
+      <td rowspan="2"><button class="login">Register</button></th>
+    </tr>
+    <tr>
+      <td>Password: <input type="password" name="password"></td>
+    </tr>
+  </table>
+</form>
