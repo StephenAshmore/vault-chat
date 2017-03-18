@@ -3,13 +3,16 @@ var passport = require('passport');
 var Account = require('../models/account');
 var router = express.Router();
 var io = require('../io');
+// var cookieParser = require('cookie-parser');
+// var parse_cookie = cookieParser();
 
 var people = {};
+var name_map = {};
 
 io.on('connection', function(socket){
-  console.log('user connected: ' + socket.handshake.session.id + ' ' + socket.id);
-  
-  io.emit('user connected', socket.handshake.session.username + " has connected.");
+  console.log('user connected: ' + socket.handshake.session.id + ' ' + socket.id + ' ');
+  // people[socket.id] = socket.handshake.session.user.id;
+  io.emit('user connected', socket.id + " has connected.");
 
   socket.on('chat message', function(msg){
     console.log('chat message ' + msg);
@@ -23,7 +26,13 @@ io.on('connection', function(socket){
 });
 
 router.get('/', function (req, res) {
-  console.log("username " + req.user.username);
+  if (typeof req !== 'undefined' && req ) {
+    if ( typeof req.user !== 'undefined' && req.user ) {
+      name_map[req.user.id] = req.user.username;
+
+      console.log("A user with a name is here: " + name_map[req.user.id] + " with id: " + req.user.id);
+    }
+  }
   res.render('index', { user : req.user });
 });
 

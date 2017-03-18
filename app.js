@@ -40,6 +40,16 @@ passport.deserializeUser(Account.deserializeUser());
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
 
+
+app.use(function(req, res) {
+    var map = {};
+    map.isAuthenticated = req.isAuthenticated();
+    map.user = req.user;
+    return map;
+});
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
